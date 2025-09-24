@@ -17,8 +17,8 @@ class RotaryEmbedding(nn.Module):
         positions = torch.arange(self.max_len)
         pos_emb = positions.unsqueeze(1) * theta_i.unsqueeze(0)
 
-        cos_pos = pos_emb.sin().repeat_interleave(2, dim=-1)
-        sin_pos = pos_emb.cos().repeat_interleave(2, dim=-1)
+        cos_pos = pos_emb.cos().repeat_interleave(2, dim=-1)
+        sin_pos = pos_emb.sin().repeat_interleave(2, dim=-1)
         return cos_pos, sin_pos
 
     def forward(self, q):
@@ -40,4 +40,5 @@ bs, num_head, seq_len, head_dim = 4, 8, 10, 64
 h = torch.randn(bs, num_head, seq_len, head_dim)
 Rope = RotaryEmbedding(head_dim*num_head, num_head)
 output = Rope(h)
+
 print(output.shape)
